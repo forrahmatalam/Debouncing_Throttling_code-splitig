@@ -1,27 +1,20 @@
-import React from 'react'
-import { useEffect } from 'react'
-import axios from 'axios'
-import { useState } from 'react'
-
+import React from "react";
+import { useLoaderData } from "react-router";
 
 const About = () => {
+  const userData = useLoaderData();
 
-const [userData, setUserData] = useState([]);
-
-let getUsers = async()=>{
-  let res = await axios.get("https://fakestoreapi.com/users");
-  setUserData(res.data);
-}
-
-useEffect(()=>{
-  getUsers();
-},[])
+  console.log(userData);
 
   return (
     <div>
-      <h1>{JSON.stringify(userData)}</h1>
-    </div>
-  )
-}
+      <h1>About Page</h1>
 
-export default About
+      {userData.map((user) => (
+        <h2 key={user.id}>{user.username}</h2>
+      ))}
+    </div>
+  );
+};
+
+export default About;
