@@ -7,11 +7,13 @@ const App = () => {
 
   const [searchData, setSearchData] = useState(null);
 
-
-
-
-
   const [productsData, setproductsData] = useState([]);
+
+  const [scrollY, setScrollY] = useState(null);
+
+  let throttle = false;
+
+
   let getProducts = async () => {
     let res = await axios.get("https://fakestoreapi.com/products");
     setproductsData(res.data);
@@ -27,6 +29,8 @@ let filterData = ()=>{
   setproductsData(result)
 };
 
+
+    //Debouncing.....
   useEffect(() => {
     if(!searchData) return;
     
@@ -38,11 +42,40 @@ return ()=> clearTimeout(timeOut); //isse rest piche wale timeout ko clear ho rh
 
   }, [searchData]);
 
+
+
   useEffect(() => {
     getProducts();
   }, []);
 
  
+//Throttling.....
+useEffect(()=>{
+
+  let handleScroll = ()=>{
+   if(throttle) return;
+
+    throttle = true;
+
+    console.log("scroll triggered...")
+    setScrollY(window.scrollY);
+
+    setTimeout(() => {
+      throttle = false;
+    }, 5000);
+  }
+
+  window.addEventListener("scroll", handleScroll);
+
+  return ()=>{
+    window.removeEventListener("scroll", handleScroll);
+  }
+},[]);
+
+
+
+
+
   return (
     <div>
       
