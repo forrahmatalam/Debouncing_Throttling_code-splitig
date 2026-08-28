@@ -29,7 +29,13 @@ let filterData = ()=>{
 
   useEffect(() => {
     if(!searchData) return;
-    filterData();
+    
+let timeOut =setTimeout(() => {
+  filterData();
+}, 700);
+
+return ()=> clearTimeout(timeOut); //isse rest piche wale timeout ko clear ho rha hai like mens to men ka clear ho gya 
+
   }, [searchData]);
 
   useEffect(() => {
